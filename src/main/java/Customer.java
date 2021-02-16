@@ -1,3 +1,6 @@
-public class Customer {
+public class Customer implements Login {
     //import sql server
+    public void loginCus() {
+
+    }
 }
