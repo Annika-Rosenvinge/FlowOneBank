@@ -1,5 +1,6 @@
 public class Customer implements Login {
-    private int balance;
+    public int balance;
+    int money;
 
     // sæt saldoen til 0,-
     public Customer() {
@@ -7,35 +8,29 @@ public class Customer implements Login {
     }
 
     // indsæt penge
-    public void indsætPenge (int mængdePenge) { balance = balance + mængdePenge;
+    public void indsætPenge (money) {
+        balance = balance + money;
     }
 
 
     // Hæv Penge
-    public int hævPenge(int mængdePenge) {
-        if (balance - mængdePenge >= 0) {
-            balance = balance - mængdePenge;
-    }else {
-            ikke_penge_nok_på_konti();
+    public int hævPenge(money) {
+        if (balance - money >= 0) {
+            balance = balance - money;
         }
-
-
-        // Se saldo
-        public int getBalance(){
-            return balance;
-        }
-
-        public void ikke_penge_nok_på_konti(){
-            System.err.println("Du har desværre ikke penge nok på kontoen. Indsæt venligst penge og prøv igen.");
+        else {
+            ikkePengeNokPåKonti();
         }
 
     }
 
+    private int getBalance(){
+        return balance;
+    }
 
-
-
-
-
+    private void ikkePengeNokPåKonti(){
+        System.out.println("Du har desværre ikke penge nok på kontoen. Indsæt venligst penge og prøv igen.");
+    }
 
 
     //import sql server
