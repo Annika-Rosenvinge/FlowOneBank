@@ -9,8 +9,17 @@ public class Controller {
     }
 
     private void cusOrEmp(){
-        System.out.println("Er du kunde eller medarbejder? K/M");
-        if (System.in = "K")
+        System.out.println("Er du kunde (1) eller medarbejder? (2) ");
+        int choice;
+        choice = sc.nextInt();
+        if (choice == 1){
+            //kunde
+        }
+
+        else{
+            //medarbejder
+        }
     }
+
 }
 
