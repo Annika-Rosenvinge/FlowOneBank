@@ -1,10 +1,27 @@
+import java.util.Scanner;
+
 public class Customer implements Login {
+    Scanner scName = new Scanner(System.in);
+    Scanner scNumber = new Scanner(System.in);
+
+    static int counter = 1;
     public int balance;
     public int money;
 
-    // sæt saldoen til 0,-
-    public Customer() {
-            balance = 0;
+
+    int customerId = 0;
+    public String name;
+    int phoneNumber;
+
+
+    // creates customer
+    public Customer(String name) {
+        this.customerId = counter;
+        this.name = name;
+        int phoneNumber;
+        balance = 0;
+        counter++;
+
     }
 
     // indsæt penge
@@ -38,5 +55,9 @@ public class Customer implements Login {
     //import sql server
     public void login() {
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

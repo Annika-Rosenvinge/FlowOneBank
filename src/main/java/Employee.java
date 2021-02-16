@@ -17,11 +17,11 @@ public class Employee implements Login {
 
     public void employeeMenu(){
         int choice = 0;
-        System.out.println("Skriv valgene her under");
+        System.out.println("Vælg;");
         while (choice != 5){
             choice = sc.nextInt();
             switch (choice){
-                case 1: newCostumer(); break;
+                case 1: Customer customer = newCostumer(); commitCustomer(); break;
                 case 2: removeCostumer(); break;
                 case 3: customerChanges(); break;
                 case 4: moveMoney(); break;
@@ -29,9 +29,19 @@ public class Employee implements Login {
             }
         }
     }
-    private void newCostumer(){
-        //tilføj en ny kunde til SQL fil
-        //kunde: navn, telefon nummer, adresse
+    private Customer newCostumer(){
+        String name = " ";
+        int phoneNumber = 0;
+        int balance = 0;
+        Customer customer = new Customer(name);
+        System.out.println("Indtast kundens navn: ");
+        name = sc.next();
+        customer.setName();
+        phoneNumber = sc.nextInt();
+
+
+
+        return customer;
     }
 
     private void removeCostumer(){
@@ -46,5 +56,9 @@ public class Employee implements Login {
 
     private void moveMoney(){
 
+    }
+
+    private void commitCustomer(){
+        //kunden der oprettes lægges op i serveren
     }
 }
