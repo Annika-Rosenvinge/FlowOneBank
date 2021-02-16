@@ -1,6 +1,6 @@
 public class Customer implements Login {
     public int balance;
-    int money;
+    public int money;
 
     // sæt saldoen til 0,-
     public Customer() {
@@ -8,15 +8,17 @@ public class Customer implements Login {
     }
 
     // indsæt penge
-    public void indsætPenge (money) {
-        balance = balance + money;
+    public int indsætPenge (int money) {
+        this.money = money;
+        return balance = balance + money;
     }
 
 
     // Hæv Penge
-    public int hævPenge(money) {
+    public void hævPenge(int money) {
+        this.money = money;
         if (balance - money >= 0) {
-            balance = balance - money;
+            System.out.println(balance = balance - money);
         }
         else {
             ikkePengeNokPåKonti();
