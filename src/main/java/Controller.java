@@ -3,8 +3,6 @@ import java.util.Scanner;
 public class Controller {
     Scanner sc = new Scanner (System.in);
 
-
-
     public void runInitProgram(){
         System.out.println("Er du kunde eller medarbejder? K/M ");
         String choice;

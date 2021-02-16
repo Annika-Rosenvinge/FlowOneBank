@@ -1,4 +1,4 @@
 public interface Login {
 
-    void loginCus();
+    void login();
 }
