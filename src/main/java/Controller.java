@@ -4,7 +4,6 @@ public class Controller {
     Scanner in = new Scanner (System.in);
     int userInput;
 
-
     public void runInitProgram(){
         System.out.print("Velkommen til Ebberød Bank!\nTast 1 for kunde/Tast 2 for medarbejder: ");
         userInput = in.nextInt();
@@ -21,6 +20,7 @@ public class Controller {
                 break;
         }
     }
+
 
     private void startCustomerUserInterface() {
         System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en bruger: ");
