@@ -12,7 +12,7 @@ CREATE TABLE CusAccount(
 	MoneyInAccount int not null default '0',
     CusNumber int not null,
     CusName varchar (255) not null
-)
+);
 
 CREATE TABLE TransactionHistory (
     CusNumber int not null auto_increment primary key,
