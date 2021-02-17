@@ -40,7 +40,7 @@ public class Employee implements Login {
     private Customer newCostumer(){
         String name =  " ";
         int phoneNumber = 0;
-        Customer customer = new Customer(name, phoneNumber;
+        Customer customer = new Customer(name, phoneNumber);
         System.out.println("Indtast kundens navn: ");
         name = sc.next();
         customer.setName(name);
