@@ -1,29 +1,30 @@
-CREATE DATABASE ebberodbank;
+CREATE DATABASE IF NOT EXISTS ebberodbank;
+USE ebberodbank; 
 
-CREATE TABLE Customer(
+CREATE TABLE IF NOT EXISTS Customer(
 	CusNumber int not null auto_increment primary key,
 	CusName varchar (255) not null,
     CusPhone int not null,
     CusAdress varchar (255) not null
 );
 
-CREATE TABLE CusAccount(
+CREATE TABLE IF NOT EXISTS CusAccount(
 	AccountNumber int not null auto_increment primary key,
 	MoneyInAccount int not null default '0',
     CusNumber int not null,
     CusName varchar (255) not null
 );
 
-CREATE TABLE TransactionHistory (
+CREATE TABLE IF NOT EXISTS TransactionHistory (
     CusNumber int not null auto_increment primary key,
     CusName varchar (255) not null,
     TransactionHis varchar (255) not null
 );
 
-CREATE TABLE EmployeeAccount(
+CREATE TABLE IF NOT EXISTS EmployeeAccount(
     EmID int not null auto_increment primary key,
     EmName varchar (255) not null,
-    ePincode int not null,
+    ePincode int not null
 );
 
 /* 3 temporary medarbejdere */
