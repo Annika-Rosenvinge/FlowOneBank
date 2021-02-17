@@ -15,11 +15,10 @@ public class Customer implements Login {
 
 
     // creates customer
-    public Customer(String name) {
+    public Customer(String name, int phoneNumber) {
         this.customerId = counter;
         this.name = name;
-        int phoneNumber;
-        balance = 0;
+        this.phoneNumber = phoneNumber;
         counter++;
 
     }
@@ -59,5 +58,24 @@ public class Customer implements Login {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setPhoneNumber (int phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
     }
 }
