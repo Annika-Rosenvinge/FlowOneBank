@@ -14,13 +14,15 @@ public class Customer implements Login {
     int customerId = 0;
     public String name;
     int phoneNumber;
+    public String address;
 
 
     // creates customer
-    public Customer(String name, int phoneNumber) {
+    public Customer(String name, int phoneNumber, String address) {
         this.customerId = counter;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address;
         counter++;
 
     }
@@ -62,6 +64,9 @@ public class Customer implements Login {
     public void setPhoneNumber (int phoneNumber){
         this.phoneNumber = phoneNumber;
     }
+    public void setAddress (String address) {
+        this.address = address;
+    }
 
     public void setBalance(int balance) {
         this.balance = balance;
@@ -78,6 +83,10 @@ public class Customer implements Login {
     public int getPhoneNumber() {
         return phoneNumber;
     }
+    public String getAddress() {
+        return address;
+    }
+
     private int getBalance(){
         return balance;
     }

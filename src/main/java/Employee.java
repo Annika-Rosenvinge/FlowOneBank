@@ -12,7 +12,7 @@ public class Employee implements Login {
     public void login() {
         Connection con = null;
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM employee (SELECT employee.emID)";
+        String sql = "SELECT * FROM employee (SELECT employeeaccount.EmID)";
 
         con = JDBConnector.getConnection();
 
@@ -59,13 +59,17 @@ public class Employee implements Login {
     private Customer newCostumer(){
         String name =  " ";
         int phoneNumber = 0;
-        Customer customer = new Customer(name, phoneNumber);
+        String address = "";
+        Customer customer = new Customer(name, phoneNumber, address);
         System.out.println("Indtast kundens navn: ");
         name = sc.next();
         customer.setName(name);
         System.out.println("Indtast kundens telefon nummer; ");
         phoneNumber = sc.nextInt();
         customer.setPhoneNumber(phoneNumber);
+        System.out.println("Indtast kundens adresse; ");
+        phoneNumber = sc.nextInt();
+        customer.setAddress(address);
 
         return customer;
     }
@@ -76,7 +80,7 @@ public class Employee implements Login {
         Connection con = null;
         PreparedStatement prepStat = null;
 
-        String sql = "INSERT INTO customer (cusNumber, cusName, cusPhone) VALUES (?,?,?)";
+        String sql = "INSERT INTO customer (CusNumber, CusName, CusPhone, CusAdress) VALUES (?,?,?,?)";
         con = JDBConnector.getConnection();
 
         try{
@@ -84,6 +88,7 @@ public class Employee implements Login {
             prepStat.setInt(1,customer.getCustomerId() );
             prepStat.setString(2, customer.getName());
             prepStat.setInt(3, customer.getPhoneNumber());
+            prepStat.setString(4, customer.getAddress());
 
             int update = prepStat.executeUpdate();
             con.close();
@@ -117,11 +122,13 @@ public class Employee implements Login {
 
             while (resultSet.next()){
                 System.out.println(" ");
-                System.out.println(resultSet.getString("cusNumber"));
+                System.out.println(resultSet.getString("CusNumber"));
                 System.out.println(" ");
-                System.out.println(resultSet.getString("cusName"));
+                System.out.println(resultSet.getString("CusName"));
                 System.out.println(" ");
-                System.out.println(resultSet.getString("cusPhone"));
+                System.out.println(resultSet.getString("CusPhone"));
+                System.out.println(" ");
+                System.out.println(resultSet.getString("CusAddress"));
             }
 
         } catch (SQLException throwables) {
