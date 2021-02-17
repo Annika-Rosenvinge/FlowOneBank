@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS Customer(
 	CusNumber int not null auto_increment primary key,
 	CusName varchar (255) not null,
     CusPhone int not null,
-    CusAdress varchar (255) not null
+    CusAdress varchar (255) not null,
+    CusUsername varchar (255) not null,
+    CusPassword varchar (255) not null
 );
 
 CREATE TABLE IF NOT EXISTS CusAccount(
