@@ -15,7 +15,15 @@ public class Employee implements Login {
         String sql = "SELECT * FROM employee (SELECT employee.employeeID)";
 
         con = JDBConnector.getConnection();
-        
+
+        try{
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            System.out.println(ResultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
 
 
 
@@ -67,7 +75,6 @@ public class Employee implements Login {
         //INSERT INTO customer (cusID, CusName, phone) values....
         Connection con = null;
         PreparedStatement prepStat = null;
-        ResultSet res = null;
 
         String sql = "INSERT INTO customer (cusID, cusName, phone) VALUES (?,?,?)";
         con = JDBConnector.getConnection();
