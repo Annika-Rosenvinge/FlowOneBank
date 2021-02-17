@@ -3,14 +3,8 @@ import java.util.Scanner;
 //passwords mangler
 
 public class Customer implements Login {
-    Scanner scName = new Scanner(System.in);
-    Scanner scNumber = new Scanner(System.in);
-
-    static int counter = 1;
     public int balance;
     public int money;
-
-
     int customerId = 0;
     public String name;
     int phoneNumber;
@@ -19,12 +13,9 @@ public class Customer implements Login {
 
     // creates customer
     public Customer(String name, int phoneNumber, String address) {
-        this.customerId = counter;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        counter++;
-
     }
 
     public void login() {
