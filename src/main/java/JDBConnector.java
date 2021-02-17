@@ -10,7 +10,7 @@ public class JDBConnector {
         String user = "root";
         String password = "123root";
         String urlAddOn = "?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
-        String url = "jdbc:mysql://localhost/Mariopizza" + urlAddOn;
+        String url = "jdbc:mysql://localhost/ebberodbank" + urlAddOn;
         try {
             con = DriverManager.getConnection(url, user, password);
 

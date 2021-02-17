@@ -12,7 +12,7 @@ public class Employee implements Login {
     public void login() {
         Connection con = null;
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM employee (SELECT employee.employeeID)";
+        String sql = "SELECT * FROM employee (SELECT employee.emID)";
 
         con = JDBConnector.getConnection();
 
@@ -76,7 +76,7 @@ public class Employee implements Login {
         Connection con = null;
         PreparedStatement prepStat = null;
 
-        String sql = "INSERT INTO customer (cusID, cusName, phone) VALUES (?,?,?)";
+        String sql = "INSERT INTO customer (cusNumber, cusName, cusPhone) VALUES (?,?,?)";
         con = JDBConnector.getConnection();
 
         try{
@@ -112,16 +112,16 @@ public class Employee implements Login {
 
         try{
             Statement statement = connector.getConnection().createStatement();
-            String sql = "SELECT * FROM bank.customer";
+            String sql = "SELECT * FROM ebberodbank.customer";
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()){
                 System.out.println(" ");
-                System.out.println(resultSet.getString("cusId"));
+                System.out.println(resultSet.getString("cusNumber"));
                 System.out.println(" ");
                 System.out.println(resultSet.getString("cusName"));
                 System.out.println(" ");
-                System.out.println(resultSet.getString("phone"));
+                System.out.println(resultSet.getString("cusPhone"));
             }
 
         } catch (SQLException throwables) {
