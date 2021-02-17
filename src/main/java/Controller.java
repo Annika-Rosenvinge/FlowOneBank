@@ -21,13 +21,13 @@ public class Controller {
         }
     }
 
-
     private void startCustomerUserInterface() {
         System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en bruger: ");
         userInput = in.nextInt();
         in.nextLine();
         switch(userInput) {
             case 1:
+                userLoginInterface();
                 break;
             case 2:
                 createUserInterface();
@@ -37,6 +37,18 @@ public class Controller {
                 startCustomerUserInterface();
                 break;
         }
+    }
+
+    private void userLoginInterface() {
+        String username, password;
+
+        System.out.print("Indtast brugernavn: ");
+        username = in.next();
+
+        System.out.print("Indtast password: ");
+        password = in.next();
+
+        //Mangler at teste med database om brugernavn/kodeord er korrekt
     }
 
     private void createUserInterface() {
