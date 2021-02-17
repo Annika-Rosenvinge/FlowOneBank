@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Controller {
     Scanner sc = new Scanner (System.in);
+    Employee employee = new Employee();
 
     public void runInitProgram(){
         System.out.println("Er du kunde eller medarbejder? K/M ");
@@ -12,7 +13,7 @@ public class Controller {
         }
 
         else{
-            //medarbejder ^
+            employee.employee();
         }
     }
 

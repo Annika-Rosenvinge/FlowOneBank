@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+//passwords mangler
+
 public class Customer implements Login {
     Scanner scName = new Scanner(System.in);
     Scanner scNumber = new Scanner(System.in);
@@ -23,6 +25,10 @@ public class Customer implements Login {
 
     }
 
+    public void login() {
+
+    }
+
     // indsæt penge
     public int indsætPenge (int money) {
         this.money = money;
@@ -42,19 +48,13 @@ public class Customer implements Login {
 
     }
 
-    private int getBalance(){
-        return balance;
-    }
-
     private void ikkePengeNokPåKonti(){
         System.out.println("Du har desværre ikke penge nok på kontoen. Indsæt venligst penge og prøv igen.");
     }
 
 
     //import sql server
-    public void login() {
 
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -78,4 +78,8 @@ public class Customer implements Login {
     public int getPhoneNumber() {
         return phoneNumber;
     }
+    private int getBalance(){
+        return balance;
+    }
+
 }
