@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS ebberodbank;
 USE ebberodbank; 
 
+DROP TABLE IF EXISTS Customer;
 CREATE TABLE IF NOT EXISTS Customer(
 	CusNumber int not null auto_increment primary key,
 	CusName varchar (255) not null,
@@ -10,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Customer(
     CusPassword varchar (255) not null
 );
 
+DROP TABLE IF EXISTS CusAccount;
 CREATE TABLE IF NOT EXISTS CusAccount(
 	AccountNumber int not null auto_increment primary key,
 	MoneyInAccount int not null default '0',
@@ -17,12 +19,14 @@ CREATE TABLE IF NOT EXISTS CusAccount(
     CusName varchar (255) not null
 );
 
+DROP TABLE IF EXISTS TransactionHistory;
 CREATE TABLE IF NOT EXISTS TransactionHistory (
     CusNumber int not null auto_increment primary key,
     CusName varchar (255) not null,
     TransactionHis varchar (255) not null
 );
 
+DROP TABLE IF EXISTS EmployeeAccount;
 CREATE TABLE IF NOT EXISTS EmployeeAccount(
     EmID int not null auto_increment primary key,
     EmName varchar (255) not null,
