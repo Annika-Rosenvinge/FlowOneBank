@@ -18,7 +18,7 @@ public class Employee implements Login {
 
         try{
             ResultSet resultSet = preparedStatement.executeQuery(sql);
-            System.out.println(ResultSet);
+            System.out.println(resultSet);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
