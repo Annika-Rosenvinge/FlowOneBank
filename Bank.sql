@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS CusAccount(
 
 DROP TABLE IF EXISTS TransactionHistory;
 CREATE TABLE IF NOT EXISTS TransactionHistory (
-    CusNumber int not null auto_increment primary key,
+    CusNumber int not null primary key,
     CusName varchar (255) not null,
     TimeTransaction datetime DEFAULT CURRENT_TIMESTAMP,
     TransactionHis varchar (255) not null
