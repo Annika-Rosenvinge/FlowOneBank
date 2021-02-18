@@ -37,7 +37,7 @@ public class Employee {
                 controller.createUserInterface();
                 break;
             case 2:
-                //LISTE AF CUSTOMER MANGLER
+                printAllCustomers();
                 removeCostumer();
                 break;
             case 3:
@@ -57,7 +57,15 @@ public class Employee {
     }
 
     private void removeCostumer() {
-        // Skal laves efter liste af costumer
+        System.out.print("Indtast kontonummer at slette (SKRIV 0 FOR AT ANNULLERE): ");
+        userInput = in.nextInt();
+        in.nextLine();
+
+        if(userInput != 0) {
+            mysql.removeUser(userInput);
+        }
+
+        userInput = 1;
     }
 
 

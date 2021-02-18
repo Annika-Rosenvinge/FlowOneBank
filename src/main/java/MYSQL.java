@@ -1,4 +1,3 @@
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -310,5 +309,34 @@ public class MYSQL {
             throwables.printStackTrace();
         }
         return customers;
+    }
+
+        public boolean removeUser(int cusNummer) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "DELETE FROM customer WHERE CusNumber = ?;";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, cusNummer);
+            preparedStatement.execute();
+
+            sql = "DELETE FROM transactionhistory WHERE CusNumber = ?;";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, cusNummer);
+            preparedStatement.execute();
+
+            sql = "DELETE FROM cusaccount WHERE CusNumber = ?;";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, cusNummer);
+            preparedStatement.execute();
+
+            preparedStatement.close();
+            con.close();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 }
