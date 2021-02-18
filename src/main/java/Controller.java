@@ -15,6 +15,7 @@ public class Controller {
                 startCustomerUserInterface();
                 break;
             case 2:
+                startEmployeeUserInterface();
                 break;
             default:
                 System.out.println("Invalid indtastet kommando");
@@ -39,6 +40,60 @@ public class Controller {
                 System.out.println("Invalid indtastet kommando");
                 startCustomerUserInterface();
                 break;
+        }
+    }
+
+    private void startEmployeeUserInterface() {
+        System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en employee bruger: ");
+        userInput = in.nextInt();
+        in.nextLine();
+        switch(userInput) {
+            case 1:
+                employeeLoginInterface();
+                break;
+            case 2:
+                createEmployeeInterface();
+                startEmployeeUserInterface();
+                break;
+            default:
+                System.out.println("Invalid indtastet kommando");
+                startEmployeeUserInterface();
+                break;
+        }
+    }
+
+    private void employeeLoginInterface() {
+        String username, password;
+
+        System.out.print("Indtast brugernavn: ");
+        username = in.next();
+
+        System.out.print("Indtast password: ");
+        password = in.next();
+
+        if(mysql.employeeLoginCheck(username, password)) {
+            // Mangler integrere employee classen her
+            System.out.println("logget ind");
+        } else {
+            System.out.println("Ugyldigt brugernavn eller login");
+            runInitProgram();
+        }
+    }
+
+    private void createEmployeeInterface() {
+        String username, password = null;
+
+        System.out.print("Vælg et brugernavn: ");
+        username = in.nextLine();
+
+        while(password == null) {
+            password = createPassword();
+        }
+
+        if(mysql.createEmployeeMYSQL(username, password)) {
+            System.out.println("Kontoen er oprettet");
+        } else {
+            System.out.println("FEJL (MYSQL)");
         }
     }
 

@@ -6,32 +6,19 @@ import java.util.Scanner;
 //passwords til kunder
 
 public class Employee {
-    Scanner sc = new Scanner(System.in);
+    Scanner in = new Scanner(System.in);
     List<Customer> customers = new ArrayList<>();
-/*
-    public void login() {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
-        String sql = "SELECT * FROM employee (SELECT employeeaccount.EmID)";
+    String employeeName;
+    int employeeID;
 
-        con = JDBConnector.getConnection();
-
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
-            System.out.println(resultSet);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-
-
-
-
-        // if navn = medarbejdernummer && kode = medarbejderkode
-          //så logges man ind og kan fortsætte
-
-
+    public Employee(String employeeName, int employeeID) {
+        this.employeeName = employeeName;
+        this.employeeID = employeeID;
     }
+
+
+/*
+
 
     public void employee() {
         login();

@@ -216,4 +216,54 @@ public class MYSQL {
 
         return false;
     }
+
+    public boolean createEmployeeMYSQL(String username, String password) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "INSERT INTO employeeaccount (emName, ePincode) VALUES (?,?)";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            preparedStatement.execute();
+            preparedStatement.close();
+            con.close();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean employeeLoginCheck(String username, String password) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT emName, ePincode FROM employeeaccount WHERE emName = ? AND ePincode = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if(rs.next()) {
+                rs.close();
+                preparedStatement.close();
+                con.close();
+                return true;
+            }
+
+            rs.close();
+            preparedStatement.close();
+            con.close();
+            return false;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
 }
