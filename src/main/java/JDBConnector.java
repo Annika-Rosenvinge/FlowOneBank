@@ -3,7 +3,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBConnector {
-
     public static Connection getConnection () {
         //dette skal ændres så det passer dem den computer det køres på
         Connection con = null;
@@ -19,5 +18,4 @@ public class JDBConnector {
         }
         return con;
     }
-
 }

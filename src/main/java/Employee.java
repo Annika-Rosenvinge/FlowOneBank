@@ -1,11 +1,8 @@
-import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Employee {
     Scanner in = new Scanner(System.in);
-    List<Customer> customers = new ArrayList<>();
     String employeeName;
     int userInput;
     Controller controller = new Controller();
@@ -75,7 +72,7 @@ public class Employee {
 
     private void customerChanges() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
-        int userEdit = 0, customerPhone = 0;
+        int userEdit, customerPhone = 0;
         String customerName = null, customerAdresse = null;
 
         System.out.print("Indtast kontonummer at redigere (SKRIV 0 FOR AT ANNULLERE): ");
@@ -129,7 +126,7 @@ public class Employee {
     }
 
     private void moveMoney() {
-        int user1 = 0, user2 = 0, transferAmount = 0;
+        int user1, user2, transferAmount;
 
         System.out.print("Vælg konto 1: ");
         user1 = in.nextInt();
@@ -178,9 +175,8 @@ public class Employee {
 
         if(userInput != 0) {
             ArrayList<String []> transactions= mysql.getTransactionHistory(userInput);
-            for(int i = 0; i < transactions.size(); i++) {
-                String [] transaction = transactions.get(i);
-                System.out.println(transaction[0] + " - " + transaction [1] + " - " + transaction[2]);
+            for (String[] transaction : transactions) {
+                System.out.println(transaction[0] + " - " + transaction[1] + " - " + transaction[2]);
             }
             System.out.println("\n");
         } else {

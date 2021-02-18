@@ -5,8 +5,8 @@ public class MYSQL {
 
     public boolean createUserMYSQL(String username, String password, String name, String adresse, String phone) {
         int customerNumber = 0;
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "INSERT INTO customer (cusName, cusPhone, cusAdress, cusUsername, cusPassword) VALUES (?,?,?,?,?)";
         try{
             con = JDBConnector.getConnection();
@@ -168,7 +168,7 @@ public class MYSQL {
         return false;
     }
 
-    public boolean transactionUpdate(int customerNumber, String custonerName, int balance, int changeMoney, String txt) {
+    public boolean transactionUpdate(int customerNumber, String customerName, int balance, int changeMoney, String txt) {
         Connection con = null;
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO TransactionHistory (cusNumber, cusName, TransactionHis) VALUES (?, ?, ?)";
@@ -176,7 +176,7 @@ public class MYSQL {
             con = JDBConnector.getConnection();
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setInt(1, customerNumber);
-            preparedStatement.setString(2, custonerName);
+            preparedStatement.setString(2, customerName);
 
             String transTxt = txt + " " + changeMoney + " DKK .... Balance: " + (float) balance/100.00 + " DKK";
             preparedStatement.setString(3, transTxt);

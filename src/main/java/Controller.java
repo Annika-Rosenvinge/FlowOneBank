@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Controller {
-    private Scanner in = new Scanner (System.in);
+    private final Scanner in = new Scanner (System.in);
     MYSQL mysql = new MYSQL();
     private int userInput;
     Customer customerBank;

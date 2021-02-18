@@ -1,12 +1,12 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer {
     MYSQL mysql = new MYSQL();
-    private String customerName, customerAdress;
-    private int customerPhone, customerNumber, money;
-    private Scanner in = new Scanner(System.in);
+    private final String customerName, customerAdress;
+    private final int customerPhone, customerNumber;
+    private int money;
+    private final Scanner in = new Scanner(System.in);
     private int userInput;
 
     public Customer(String customerName, String customerAdress, int customerPhone, int customerNumber, int money) {
@@ -70,9 +70,8 @@ public class Customer {
         ArrayList<String []> transactions = mysql.getTransactionHistory(customerNumber);
         System.out.println("transaktionshistorik:");
 
-        for(int i = 0; i < transactions.size(); i++) {
-            String [] transaction = transactions.get(i);
-            System.out.println(transaction[0] + " - " + transaction [1] + " - " + transaction[2]);
+        for (String[] transaction : transactions) {
+            System.out.println(transaction[0] + " - " + transaction[1] + " - " + transaction[2]);
         }
 
         System.out.print("Tast 1 for at forlade kunde information: ");
