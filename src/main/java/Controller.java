@@ -2,13 +2,13 @@ import java.util.Scanner;
 
 public class Controller {
     private final Scanner in = new Scanner(System.in);
-    MYSQL mysql = new MYSQL();
+    private MYSQL mysql = new MYSQL();
     private int userInput;
     Customer customerBank;
 
+    // Start menu (Første interface)
     public void runInitProgram() {
-        System.out.print("Velkommen til Ebberød Bank!\nTast 1 for kunde/Tast 2 for medarbejder: ");
-        userInput = in.nextInt();
+        textMenuKey("Velkommen til Ebberød Bank!\nTast 1 for kunde/Tast 2 for medarbejder: ");
 
         switch (userInput) {
             case 1:
@@ -24,10 +24,9 @@ public class Controller {
         }
     }
 
+    // Kunde interface
     private void startCustomerUserInterface() {
-        System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en bruger: ");
-        userInput = in.nextInt();
-        in.nextLine();
+        textMenuKey("Tast 1 for logge ind/Tast 2 for at oprette en bruger: ");
 
         switch (userInput) {
             case 1:
@@ -44,10 +43,10 @@ public class Controller {
         }
     }
 
+    // Employee interface
     private void startEmployeeUserInterface() {
-        System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en employee bruger: ");
-        userInput = in.nextInt();
-        in.nextLine();
+        textMenuKey("Tast 1 for logge ind/Tast 2 for at oprette en employee bruger: ");
+
         switch (userInput) {
             case 1:
                 employeeLoginInterface();
@@ -63,6 +62,7 @@ public class Controller {
         }
     }
 
+    // Employee login interface
     private void employeeLoginInterface() {
         String username, password;
 
@@ -73,7 +73,7 @@ public class Controller {
         password = in.next();
 
         if (mysql.employeeLoginCheck(username, password)) {
-            Employee employee = new Employee(username);
+            Employee employee = new Employee(username, mysql);
             employee.employeeInterface();
         } else {
             System.out.println("Ugyldigt brugernavn eller login");
@@ -81,6 +81,7 @@ public class Controller {
         }
     }
 
+    // Employee account oprettelse
     private void createEmployeeInterface() {
         String username, password = null;
 
@@ -92,12 +93,13 @@ public class Controller {
         }
 
         if (mysql.createEmployeeMYSQL(username, password)) {
-            System.out.println("Kontoen er oprettet");
+            System.out.println("Kontoen er oprettet\n-----------------\n\n");
         } else {
             System.out.println("FEJL (MYSQL)");
         }
     }
 
+    // Kunde login interface
     private void userLoginInterface() {
         String username, password;
 
@@ -108,7 +110,8 @@ public class Controller {
         password = in.next();
 
         if (mysql.userLoginCheck(username, password)) {
-            customerBank = mysql.loadUser(username);
+            customerBank = mysql.loadUser(username, mysql);
+            System.out.println("\n-----------------\n\n");
             customerBank.customerInterface();
         } else {
             System.out.println("Ugyldigt brugernavn eller login");
@@ -116,6 +119,7 @@ public class Controller {
         }
     }
 
+    // Kunde account oprettelse
     public void createUserInterface() {
         String username, password = null, name, adresse, phone;
 
@@ -136,12 +140,13 @@ public class Controller {
         }
 
         if (mysql.createUserMYSQL(username, password, name, adresse, phone)) {
-            System.out.println("Kontoen er oprettet");
+            System.out.println("Kontoen er oprettet\n-----------------\n\n");
         } else {
             System.out.println("FEJL (MYSQL)");
         }
     }
 
+    // Metode til at oprette koder
     private String createPassword() {
         String code1, code2;
         System.out.print("Vælg en kode: ");
@@ -155,5 +160,12 @@ public class Controller {
             return null;
         }
     }
-}
 
+    // Metode til at håndtere prints og inputs
+    private void textMenuKey(String print) {
+        System.out.print(print);
+        userInput = in.nextInt();
+        in.nextLine();
+        System.out.println();
+    }
+}

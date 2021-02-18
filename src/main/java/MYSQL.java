@@ -80,7 +80,7 @@ public class MYSQL {
         return false;
     }
 
-    public Customer loadUser(String username) {
+    public Customer loadUser(String username, MYSQL mysql) {
         String customerName = null, customerAdress = null;
         int customerPhone = 0, customerNumber = 0, money = 0;
 
@@ -117,7 +117,7 @@ public class MYSQL {
             throwables.printStackTrace();
         }
 
-        Customer customer = new Customer(customerName, customerAdress, customerPhone, customerNumber, money);
+        Customer customer = new Customer(customerName, customerAdress, customerPhone, customerNumber, money, mysql);
         return customer;
     }
 
@@ -270,7 +270,7 @@ public class MYSQL {
                     money = rs2.getInt("MoneyInAccount");
                 }
 
-                customers.add(new Customer(customerName, customerAdress, customerPhone, customerNumber, money));
+                customers.add(new Customer(customerName, customerAdress, customerPhone, customerNumber, money, this));
             }
 
 

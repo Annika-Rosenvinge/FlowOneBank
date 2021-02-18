@@ -2,159 +2,167 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer {
-    MYSQL mysql = new MYSQL();
+    private final MYSQL mysql;
     private final String customerName, customerAdress;
     private final int customerPhone, customerNumber;
-    private int money;
+    private int balance;
     private final Scanner in = new Scanner(System.in);
     private int userInput;
+    private double balanceConverted;
 
-    public Customer(String customerName, String customerAdress, int customerPhone, int customerNumber, int money) {
+    public Customer(String customerName, String customerAdress, int customerPhone, int customerNumber, int balance, MYSQL mysql) {
         this.customerName = customerName;
         this.customerAdress = customerAdress;
         this.customerPhone = customerPhone;
         this.customerNumber = customerNumber;
+        this.mysql = mysql;
 
-        //Penge er i øre
-        this.money = money;
+        //Penge er i øre/int (For at forhindre potentialle rounding errors)
+        this.balance = balance;
+        this.balanceConverted = (float) balance / 100.00;
     }
 
+    // Hovedemenu for kunder
     public void customerInterface() {
-        //Konversion fra øre til hele kroner
-        double moneyConverted = (float) money / 100.00;
-        System.out.printf("Velkommen " + customerName + ", din bank balance er: %.2f DKK\n\n", moneyConverted);
+        System.out.printf("Velkommen " + customerName + ", din bank balance er: %.2f DKK\n\n", balanceConverted);
 
-        System.out.println("Menu:\n" +
-                "1. View account information\n" +
+        textMenuKey(true, "Menu:\n" +
+                "1. Se kunde information\n" +
                 "2. Se transaktionshistorik\n" +
                 "3. Withdraw/Deposit\n" +
-                "4. QUIT");
-
-        System.out.print("Indtast menu nummer: ");
-        userInput = in.nextInt();
-        in.nextLine();
-
-        System.out.println("\n");
+                "4. QUIT\n\n" +
+                "INPUT: ");
 
         switch (userInput) {
             case 1:
                 showUserInfo();
+                customerInterface();
                 break;
             case 2:
                 showTransactionInfo();
+                customerInterface();
                 break;
             case 3:
-                showMoneyChange();
+                withdrawDepositInterface();
+                customerInterface();
+                break;
+            case 4:
                 break;
             default:
                 break;
         }
     }
 
+    // Viser kunde information
     private void showUserInfo() {
-        double moneyConverted = (float) money / 100.00;
-        System.out.print("Kunde information:\n" +
+        textMenuKey(true, "Kunde information:\n" +
                 "Navn: " + customerName + "\n" +
                 "Telefon: " + customerPhone + "\n" +
                 "Adresse: " + customerAdress + "\n" +
-                "Balance: " + moneyConverted + " DKK\n\n" +
+                "Balance: " + balanceConverted + " DKK\n\n" +
                 "Tast 1 for at forlade kunde information: ");
-
-        userInput = in.nextInt();
-        in.nextLine();
-
-        customerInterface();
     }
 
+    // Viser transaktionshistorik
     private void showTransactionInfo() {
         ArrayList<String[]> transactions = mysql.getTransactionHistory(customerNumber);
-        System.out.println("transaktionshistorik:");
+        System.out.println("Transaktionshistorik:");
 
         for (String[] transaction : transactions) {
             System.out.println(transaction[0] + " - " + transaction[1] + " - " + transaction[2]);
         }
 
-        System.out.print("Tast 1 for at forlade kunde information: ");
-        userInput = in.nextInt();
-        in.nextLine();
-
-        customerInterface();
+        textMenuKey(true, "Tast 1 for at forlade kunde information: ");
     }
 
-    private void showMoneyChange() {
-        double moneyConverted = (float) money / 100.00;
+    // Withdraw/deposit menu
+    private void withdrawDepositInterface() {
         System.out.printf("Din nuværende balance er: %.2f DKK:\n" +
                 "1. Hæv penge\n" +
                 "2. Indsæt penge\n" +
                 "3. Tilbage til menuen\n\n" +
-                "Indtast menu nummer: ", moneyConverted);
+                "Indtast menu nummer: ", balanceConverted);
 
-        userInput = in.nextInt();
-        in.nextLine();
-
-        System.out.println("\n");
+        textMenuKey(false, "");
 
         switch (userInput) {
             case 1:
-                userInput = 0;
-                while (userInput <= 0) {
-                    System.out.printf("Din nuværende balance er: %.2f DKK\n" +
-                            "Indtast ønsket beløb at hæve: ", moneyConverted);
-
-                    userInput = in.nextInt();
-                    in.nextLine();
-
-                    System.out.println("\n");
-
-                    if (userInput <= 0) {
-                        System.out.println("Indtast et gyldigt beløb");
-                    }
-                }
-
-                if ((userInput * 100) <= money) {
-                    moneyController(-userInput);
-                    mysql.transactionUpdate(customerNumber, customerName, money, userInput, "Withdraw");
-                } else {
-                    System.out.println("Utilstrækkelig balance på kontien");
-                }
-
+                withdraw();
                 break;
             case 2:
-                userInput = 0;
-                while (userInput <= 0) {
-                    System.out.printf("Din nuværende balance er: %.2f DKK\n" +
-                            "Indtast ønsket beløb at indsætte: ", moneyConverted);
-
-                    userInput = in.nextInt();
-                    in.nextLine();
-
-                    System.out.println("\n");
-
-                    if (userInput <= 0) {
-                        System.out.println("Indtast et gyldigt beløb");
-                    }
-                }
-
-                moneyController(userInput);
-                mysql.transactionUpdate(customerNumber, customerName, money, userInput, "Deposited");
+                deposit();
                 break;
             default:
                 break;
         }
-        customerInterface();
     }
 
+    //Withdraw penge til konto
+    private void withdraw() {
+        userInput = 0;
+        while (userInput <= 0) {
+            System.out.printf("Din nuværende balance er: %.2f DKK\n" +
+                    "Indtast ønsket beløb at hæve: ", balanceConverted);
+
+            textMenuKey(false, "");
+
+            if (userInput <= 0) {
+                System.out.println("Indtast et gyldigt beløb");
+            }
+        }
+
+        if ((userInput * 100) <= balance) {
+            moneyController(-userInput);
+            mysql.transactionUpdate(customerNumber, customerName, balance, userInput, "Withdraw");
+        } else {
+            System.out.println("Utilstrækkelig balance på kontien");
+        }
+    }
+
+    // Deposit penge til konto
+    private void deposit() {
+        userInput = 0;
+        while (userInput <= 0) {
+            System.out.printf("Din nuværende balance er: %.2f DKK\n" +
+                    "Indtast ønsket beløb at indsætte: ", balanceConverted);
+
+            textMenuKey(false, "");
+
+            if (userInput <= 0) {
+                System.out.println("Indtast et gyldigt beløb");
+            }
+        }
+
+        moneyController(userInput);
+        mysql.transactionUpdate(customerNumber, customerName, balance, userInput, "Deposited");
+    }
+
+    // Metode til at håndtere prints og inputs
+    private void textMenuKey(boolean needPrint, String print) {
+        if (needPrint) {
+            System.out.print(print);
+        }
+
+        userInput = in.nextInt();
+        in.nextLine();
+        System.out.println();
+    }
+
+    // Ændre balancen i mysql databasen (balance bliver automatisk opdateret, fordi vi kalder updateMoney())
     private void moneyController(int moneyChange) {
         updateMoney();
-        int moneyToUpdate = money + moneyChange * 100;
+        int moneyToUpdate = balance + moneyChange * 100;
         mysql.updateMoney(customerNumber, moneyToUpdate);
         updateMoney();
     }
 
+    // Henter balance fra mysql databasen
     private void updateMoney() {
-        money = mysql.getMoney(customerNumber);
+        balance = mysql.getMoney(customerNumber);
+        balanceConverted = (float) balance / 100.00;
     }
 
+    // Getters
     public String getCustomerName() {
         return customerName;
     }
@@ -171,7 +179,7 @@ public class Customer {
         return customerNumber;
     }
 
-    public int getMoney() {
-        return money;
+    public int getCustomerBalance() {
+        return balance;
     }
 }

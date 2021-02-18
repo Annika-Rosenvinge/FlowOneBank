@@ -2,75 +2,70 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Employee {
-    Scanner in = new Scanner(System.in);
-    String employeeName;
-    int userInput;
-    Controller controller = new Controller();
-    MYSQL mysql = new MYSQL();
+    private final Scanner in = new Scanner(System.in);
+    private final String employeeName;
+    private int userInput;
+    private final Controller controller = new Controller();
+    private final MYSQL mysql;
 
-    public Employee(String employeeName) {
+    public Employee(String employeeName, MYSQL mysql) {
         this.employeeName = employeeName;
+        this.mysql = mysql;
     }
 
+    // Hovedemenu for employees
     public void employeeInterface() {
-        System.out.println("Velkommen " + employeeName + "!");
-
-        System.out.println("Menu:\n" +
+        textMenuKey("Velkommen " + employeeName + "!\n\n" +
+                "Menu:\n" +
                 "1. Opret konti\n" +
                 "2. Fjern konti\n" +
                 "3. Redigere konti\n" +
                 "4. Flyt penge\n" +
                 "5. Se alle kontier\n" +
-                "6. QUIT");
+                "6. QUIT\n\n" +
+                "INPUT: ");
 
-        System.out.print("Indtast menu nummer: ");
-        userInput = in.nextInt();
-        in.nextLine();
-
-        System.out.println("\n");
+        if(userInput < 6 && userInput > 1) printAllCustomers();
 
         switch (userInput) {
             case 1:
                 controller.createUserInterface();
+                employeeInterface();
                 break;
             case 2:
-                printAllCustomers();
                 removeCostumer();
+                employeeInterface();
                 break;
             case 3:
-                printAllCustomers();
-                customerChanges();
+                customerChangeSettings();
+                employeeInterface();
                 break;
             case 4:
-                printAllCustomers();
-                moveMoney();
+                transferMoney();
+                employeeInterface();
                 break;
             case 5:
-                printAllCustomers();
-                selectCustomer();
+                showUserTransactionHistory();
+                employeeInterface();
+                break;
+            case 6:
                 break;
             default:
                 break;
         }
-
-        if (userInput > 0 && userInput < 6) {
-            employeeInterface();
-        }
     }
 
+    // Fjerner kunder fra databasen
     private void removeCostumer() {
-        System.out.print("Indtast kontonummer at slette (SKRIV 0 FOR AT ANNULLERE): ");
-        userInput = in.nextInt();
-        in.nextLine();
+        textMenuKey("Indtast kontonummer at slette (SKRIV 0 FOR AT ANNULLERE): ");
 
         if (userInput != 0) {
             mysql.removeUser(userInput);
         }
-
-        userInput = 1;
     }
 
-    private void customerChanges() {
+    // Ændre kundernes indstillinger
+    private void customerChangeSettings() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
         int userEdit, customerPhone = 0;
         String customerName = null, customerAdresse = null;
@@ -79,15 +74,12 @@ public class Employee {
         userEdit = in.nextInt();
         in.nextLine();
 
-        System.out.print("ÆNDRINGS MENU:\n" +
+        textMenuKey("ÆNDRINGS MENU:\n" +
                 "1. Navn\n" +
                 "2. Telefonnummer\n" +
                 "3. Adresse\n" +
                 "4. QUIT\n" +
                 "Indtast menu nummer: ");
-
-        userInput = in.nextInt();
-        in.nextLine();
 
         for (Customer customer : customers) {
             if (customer.getCustomerNumber() == userEdit) {
@@ -118,13 +110,12 @@ public class Employee {
                     break;
             }
             mysql.updateUserAccount(userEdit, customerName, customerPhone, customerAdresse);
-            System.out.println("Brugeren er ny opdateret!");
+            System.out.println("Brugeren er opdateret!");
         }
-
-        userInput = 1;
     }
 
-    private void moveMoney() {
+    // Overfører penge tværs over 2 kontoer
+    private void transferMoney() {
         int user1, user2, transferAmount;
 
         System.out.print("Vælg konto 1: ");
@@ -153,24 +144,22 @@ public class Employee {
         } else {
             System.out.println("Ugyldigt input");
         }
-
-        userInput = 1;
     }
 
+    // Printer alle kundernes kundeinformation (minus transaktionshistorik)
     private void printAllCustomers() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
 
         for (Customer customer : customers) {
-            System.out.printf(customer.getCustomerNumber() + ". " + customer.getCustomerName() + " (" + customer.getCustomerPhone() + ", " + customer.getCustomerAdress() + ") Saldo: %.2f DKK\n", (float) customer.getMoney() / 100.00);
+            System.out.printf(customer.getCustomerNumber() + ". " + customer.getCustomerName() + " (" + customer.getCustomerPhone() + ", " + customer.getCustomerAdress() + ") Saldo: %.2f DKK\n", (float) customer.getCustomerBalance() / 100.00);
         }
 
         System.out.println("\n");
     }
 
-    private void selectCustomer() {
-        System.out.print("Indtast et kontonummer for at se transaktionshistorik (Skriv 0 for at quit): ");
-        userInput = in.nextInt();
-        in.nextLine();
+    // Viser kunders transaktionshistorik
+    private void showUserTransactionHistory() {
+        textMenuKey("Indtast et kontonummer for at se transaktionshistorik (Skriv 0 for at quit): ");
 
         if (userInput != 0) {
             ArrayList<String[]> transactions = mysql.getTransactionHistory(userInput);
@@ -181,7 +170,13 @@ public class Employee {
         } else {
             System.out.println("Ugyldigt input");
         }
+    }
 
-        userInput = 1;
+    // Metode til at håndtere prints og inputs
+    private void textMenuKey(String print) {
+        System.out.print(print);
+        userInput = in.nextInt();
+        in.nextLine();
+        System.out.println();
     }
 }
