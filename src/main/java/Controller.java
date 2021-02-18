@@ -1,16 +1,16 @@
 import java.util.Scanner;
 
 public class Controller {
-    private final Scanner in = new Scanner (System.in);
+    private final Scanner in = new Scanner(System.in);
     MYSQL mysql = new MYSQL();
     private int userInput;
     Customer customerBank;
 
-    public void runInitProgram(){
+    public void runInitProgram() {
         System.out.print("Velkommen til Ebberød Bank!\nTast 1 for kunde/Tast 2 for medarbejder: ");
         userInput = in.nextInt();
 
-        switch(userInput) {
+        switch (userInput) {
             case 1:
                 startCustomerUserInterface();
                 break;
@@ -28,7 +28,8 @@ public class Controller {
         System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en bruger: ");
         userInput = in.nextInt();
         in.nextLine();
-        switch(userInput) {
+
+        switch (userInput) {
             case 1:
                 userLoginInterface();
                 break;
@@ -47,7 +48,7 @@ public class Controller {
         System.out.print("Tast 1 for logge ind/Tast 2 for at oprette en employee bruger: ");
         userInput = in.nextInt();
         in.nextLine();
-        switch(userInput) {
+        switch (userInput) {
             case 1:
                 employeeLoginInterface();
                 break;
@@ -71,7 +72,7 @@ public class Controller {
         System.out.print("Indtast password: ");
         password = in.next();
 
-        if(mysql.employeeLoginCheck(username, password)) {
+        if (mysql.employeeLoginCheck(username, password)) {
             Employee employee = new Employee(username);
             employee.employeeInterface();
         } else {
@@ -86,11 +87,11 @@ public class Controller {
         System.out.print("Vælg et brugernavn: ");
         username = in.nextLine();
 
-        while(password == null) {
+        while (password == null) {
             password = createPassword();
         }
 
-        if(mysql.createEmployeeMYSQL(username, password)) {
+        if (mysql.createEmployeeMYSQL(username, password)) {
             System.out.println("Kontoen er oprettet");
         } else {
             System.out.println("FEJL (MYSQL)");
@@ -106,7 +107,7 @@ public class Controller {
         System.out.print("Indtast password: ");
         password = in.next();
 
-        if(mysql.userLoginCheck(username, password)) {
+        if (mysql.userLoginCheck(username, password)) {
             customerBank = mysql.loadUser(username);
             customerBank.customerInterface();
         } else {
@@ -130,16 +131,15 @@ public class Controller {
         System.out.print("Vælg et brugernavn: ");
         username = in.nextLine();
 
-        while(password == null) {
+        while (password == null) {
             password = createPassword();
         }
 
-        if(mysql.createUserMYSQL(username, password, name, adresse, phone)) {
+        if (mysql.createUserMYSQL(username, password, name, adresse, phone)) {
             System.out.println("Kontoen er oprettet");
         } else {
             System.out.println("FEJL (MYSQL)");
         }
-
     }
 
     private String createPassword() {
@@ -149,12 +149,11 @@ public class Controller {
         System.out.print("Gentag koden: ");
         code2 = in.nextLine();
 
-        if(code1.equals(code2)) {
+        if (code1.equals(code2)) {
             return code1;
         } else {
             return null;
         }
     }
-
 }
 

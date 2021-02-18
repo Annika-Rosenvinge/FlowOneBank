@@ -67,7 +67,7 @@ public class Customer {
     }
 
     private void showTransactionInfo() {
-        ArrayList<String []> transactions = mysql.getTransactionHistory(customerNumber);
+        ArrayList<String[]> transactions = mysql.getTransactionHistory(customerNumber);
         System.out.println("transaktionshistorik:");
 
         for (String[] transaction : transactions) {
@@ -97,7 +97,7 @@ public class Customer {
         switch (userInput) {
             case 1:
                 userInput = 0;
-                while(userInput <= 0) {
+                while (userInput <= 0) {
                     System.out.printf("Din nuværende balance er: %.2f DKK\n" +
                             "Indtast ønsket beløb at hæve: ", moneyConverted);
 
@@ -106,14 +106,14 @@ public class Customer {
 
                     System.out.println("\n");
 
-                    if(userInput <= 0) {
+                    if (userInput <= 0) {
                         System.out.println("Indtast et gyldigt beløb");
                     }
                 }
 
-                if((userInput * 100) <= money ) {
+                if ((userInput * 100) <= money) {
                     moneyController(-userInput);
-                    mysql.transactionUpdate(customerNumber,customerName,money,userInput, "Withdraw");
+                    mysql.transactionUpdate(customerNumber, customerName, money, userInput, "Withdraw");
                 } else {
                     System.out.println("Utilstrækkelig balance på kontien");
                 }
@@ -121,7 +121,7 @@ public class Customer {
                 break;
             case 2:
                 userInput = 0;
-                while(userInput <= 0) {
+                while (userInput <= 0) {
                     System.out.printf("Din nuværende balance er: %.2f DKK\n" +
                             "Indtast ønsket beløb at indsætte: ", moneyConverted);
 
@@ -130,13 +130,13 @@ public class Customer {
 
                     System.out.println("\n");
 
-                    if(userInput <= 0) {
+                    if (userInput <= 0) {
                         System.out.println("Indtast et gyldigt beløb");
                     }
                 }
 
                 moneyController(userInput);
-                mysql.transactionUpdate(customerNumber,customerName,money,userInput, "Deposited");
+                mysql.transactionUpdate(customerNumber, customerName, money, userInput, "Deposited");
                 break;
             default:
                 break;

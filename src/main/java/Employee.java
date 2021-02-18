@@ -52,7 +52,8 @@ public class Employee {
             default:
                 break;
         }
-        if (userInput > 0 && userInput <6) {
+
+        if (userInput > 0 && userInput < 6) {
             employeeInterface();
         }
     }
@@ -62,13 +63,12 @@ public class Employee {
         userInput = in.nextInt();
         in.nextLine();
 
-        if(userInput != 0) {
+        if (userInput != 0) {
             mysql.removeUser(userInput);
         }
 
         userInput = 1;
     }
-
 
     private void customerChanges() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
@@ -89,15 +89,15 @@ public class Employee {
         userInput = in.nextInt();
         in.nextLine();
 
-        for(Customer customer: customers) {
-            if(customer.getCustomerNumber() == userEdit) {
+        for (Customer customer : customers) {
+            if (customer.getCustomerNumber() == userEdit) {
                 customerPhone = customer.getCustomerPhone();
                 customerAdresse = customer.getCustomerAdress();
                 customerName = customer.getCustomerName();
             }
         }
 
-        if(userEdit != 0 && userInput > 0 && userInput < 4) {
+        if (userEdit != 0 && userInput > 0 && userInput < 4) {
             switch (userInput) {
                 case 1:
                     System.out.print("Indtast nyt navn: ");
@@ -121,7 +121,6 @@ public class Employee {
             System.out.println("Brugeren er ny opdateret!");
         }
 
-
         userInput = 1;
     }
 
@@ -140,12 +139,12 @@ public class Employee {
         user2 = in.nextInt();
         in.nextLine();
 
-        if(user1 != 0 && user2 != 0 && transferAmount != 0) {
+        if (user1 != 0 && user2 != 0 && transferAmount != 0) {
             int user1Money = mysql.getMoney(user1);
             int user2Money = mysql.getMoney(user2);
             int convertedMoney = transferAmount * 100;
 
-            if(user1Money > convertedMoney) {
+            if (user1Money > convertedMoney) {
                 mysql.updateMoney(user1, user1Money - convertedMoney);
                 mysql.updateMoney(user2, user2Money + convertedMoney);
             } else {
@@ -161,7 +160,7 @@ public class Employee {
     private void printAllCustomers() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
 
-        for(Customer customer: customers) {
+        for (Customer customer : customers) {
             System.out.printf(customer.getCustomerNumber() + ". " + customer.getCustomerName() + " (" + customer.getCustomerPhone() + ", " + customer.getCustomerAdress() + ") Saldo: %.2f DKK\n", (float) customer.getMoney() / 100.00);
         }
 
@@ -173,8 +172,8 @@ public class Employee {
         userInput = in.nextInt();
         in.nextLine();
 
-        if(userInput != 0) {
-            ArrayList<String []> transactions= mysql.getTransactionHistory(userInput);
+        if (userInput != 0) {
+            ArrayList<String[]> transactions = mysql.getTransactionHistory(userInput);
             for (String[] transaction : transactions) {
                 System.out.println(transaction[0] + " - " + transaction[1] + " - " + transaction[2]);
             }
