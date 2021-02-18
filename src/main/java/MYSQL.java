@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class MYSQL {
 
+    // Opretter kunde konto
     public boolean createUserMYSQL(String username, String password, String name, String adresse, String phone) {
         int customerNumber = 0;
         Connection con;
@@ -50,42 +51,19 @@ public class MYSQL {
         return false;
     }
 
+    // Kunde login check
     public boolean userLoginCheck(String username, String password) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
         String sql = "SELECT CusUsername, CusPassword FROM customer WHERE CusUsername = ? AND CusPassword = ?";
-        try {
-            con = JDBConnector.getConnection();
-            preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                rs.close();
-                preparedStatement.close();
-                con.close();
-                return true;
-            }
-
-            rs.close();
-            preparedStatement.close();
-            con.close();
-            return false;
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return false;
+        return checkLoginCorrect(sql, username, password);
     }
 
+    // Henter kunde informationer fra databasen
     public Customer loadUser(String username, MYSQL mysql) {
         String customerName = null, customerAdress = null;
         int customerPhone = 0, customerNumber = 0, money = 0;
 
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "SELECT cusNumber, cusName, cusPhone, cusAdress FROM customer WHERE CusUsername = ?";
         try {
             con = JDBConnector.getConnection();
@@ -117,14 +95,14 @@ public class MYSQL {
             throwables.printStackTrace();
         }
 
-        Customer customer = new Customer(customerName, customerAdress, customerPhone, customerNumber, money, mysql);
-        return customer;
+        return new Customer(customerName, customerAdress, customerPhone, customerNumber, money, mysql);
     }
 
+    // Henter kundes balance
     public int getMoney(int customerNumber) {
         int money = 0;
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "SELECT MoneyInAccount FROM cusaccount WHERE cusNumber = ?";
         try {
             con = JDBConnector.getConnection();
@@ -146,9 +124,10 @@ public class MYSQL {
         return money;
     }
 
-    public boolean updateMoney(int customerNumber, int money) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+    // Opdatere kundens balance
+    public void updateMoney(int customerNumber, int money) {
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "UPDATE cusaccount SET MoneyInAccount = ? WHERE cusNumber = ?";
         try {
             con = JDBConnector.getConnection();
@@ -159,16 +138,15 @@ public class MYSQL {
             preparedStatement.execute();
             preparedStatement.close();
             con.close();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 
-    public boolean transactionUpdate(int customerNumber, String customerName, int balance, int changeMoney, String txt) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+    // Opdaterer transaktionshistorik
+    public void transactionUpdate(int customerNumber, String customerName, int balance, int changeMoney, String txt) {
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "INSERT INTO TransactionHistory (cusNumber, cusName, TransactionHis) VALUES (?, ?, ?)";
         try {
             con = JDBConnector.getConnection();
@@ -182,16 +160,15 @@ public class MYSQL {
             preparedStatement.execute();
             preparedStatement.close();
             con.close();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 
+    // Opretter employee konto
     public boolean createEmployeeMYSQL(String username, String password) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "INSERT INTO employeeaccount (emName, ePincode) VALUES (?,?)";
         try {
             con = JDBConnector.getConnection();
@@ -209,10 +186,16 @@ public class MYSQL {
         return false;
     }
 
+    // Employee login check
     public boolean employeeLoginCheck(String username, String password) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
         String sql = "SELECT emName, ePincode FROM employeeaccount WHERE emName = ? AND ePincode = ?";
+        return checkLoginCorrect(sql, username, password);
+    }
+
+    // Checker om employee/kunde login passer med konti fra database
+    private boolean checkLoginCorrect(String sql, String username, String password) {
+        Connection con;
+        PreparedStatement preparedStatement;
         try {
             con = JDBConnector.getConnection();
             preparedStatement = con.prepareStatement(sql);
@@ -239,13 +222,14 @@ public class MYSQL {
         return false;
     }
 
+    // Henter alle kunders informationer fra databasen
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
-        String customerName = null, customerAdress = null, customerUsername = null;
-        int customerPhone = 0, customerNumber = 0, money = 0;
+        String customerName, customerAdress;
+        int customerPhone, customerNumber, money = 0;
 
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "SELECT cusNumber, cusName, cusPhone, cusAdress, cusUsername FROM customer";
         try {
             con = JDBConnector.getConnection();
@@ -258,7 +242,6 @@ public class MYSQL {
                 customerName = rs.getString("cusName");
                 customerPhone = rs.getInt("cusPhone");
                 customerAdress = rs.getString("cusAdress");
-                customerUsername = rs.getString("cusUsername");
 
                 String sql2 = "SELECT MoneyInAccount FROM cusaccount WHERE cusNumber = ?";
                 PreparedStatement preparedStatement2 = con.prepareStatement(sql2);
@@ -283,9 +266,10 @@ public class MYSQL {
         return customers;
     }
 
-    public boolean removeUser(int cusNummer) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+    // Fjerner kunder fra databasen
+    public void removeUser(int cusNummer) {
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "DELETE FROM customer WHERE CusNumber = ?;";
         try {
             con = JDBConnector.getConnection();
@@ -305,17 +289,16 @@ public class MYSQL {
 
             preparedStatement.close();
             con.close();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 
+    // Henter transaktionshistorik fra kunde
     public ArrayList<String[]> getTransactionHistory(int cusNumber) {
         ArrayList<String[]> transactions = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "SELECT CusName, TimeTransaction, TransactionHis FROM transactionhistory WHERE CusNumber = ?";
         try {
             con = JDBConnector.getConnection();
@@ -342,9 +325,10 @@ public class MYSQL {
         return transactions;
     }
 
-    public boolean updateUserAccount(int cusNumber, String cusName, int phone, String cusAdress) {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
+    // Opdaterer kundens indstillinger
+    public void updateUserAccount(int cusNumber, String cusName, int phone, String cusAdress) {
+        Connection con;
+        PreparedStatement preparedStatement;
         String sql = "UPDATE customer SET CusName = ?, CusPhone = ?, CusAdress = ? WHERE cusNumber = ?";
         try {
             con = JDBConnector.getConnection();
@@ -357,10 +341,8 @@ public class MYSQL {
             preparedStatement.execute();
             preparedStatement.close();
             con.close();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 }
