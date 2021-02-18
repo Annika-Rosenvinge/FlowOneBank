@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS EmployeeAccount;
 CREATE TABLE IF NOT EXISTS EmployeeAccount(
     EmID int not null auto_increment primary key,
     EmName varchar (255) not null,
-    ePincode int not null
+    ePincode varchar (255) not null
 );
 
 /* 3 temporary medarbejdere */

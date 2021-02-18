@@ -1,3 +1,4 @@
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -265,5 +266,49 @@ public class MYSQL {
             throwables.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Customer> getAllCustomers() {
+        ArrayList<Customer> customers = new ArrayList<>();
+        String customerName = null, customerAdress = null, customerUsername = null;
+        int customerPhone = 0, customerNumber = 0, money = 0;
+
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT cusNumber, cusName, cusPhone, cusAdress, cusUsername FROM customer";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()) {
+                customerNumber = rs.getInt("cusNumber");
+                customerName = rs.getString("cusName");
+                customerPhone = rs.getInt("cusPhone");
+                customerAdress = rs.getString("cusAdress");
+                customerUsername = rs.getString("cusUsername");
+
+                String sql2 = "SELECT MoneyInAccount FROM cusaccount WHERE cusNumber = ?";
+                PreparedStatement preparedStatement2 = con.prepareStatement(sql2);
+                preparedStatement2.setInt(1, customerNumber);
+
+                ResultSet rs2 = preparedStatement2.executeQuery();
+
+                if(rs2.next()) {
+                    money = rs2.getInt("MoneyInAccount");
+                }
+
+                customers.add(new Customer(customerName,customerAdress,customerPhone,customerNumber,money));
+            }
+
+
+            rs.close();
+            preparedStatement.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customers;
     }
 }
