@@ -33,6 +33,7 @@ public class Controller {
                 break;
             case 2:
                 createUserInterface();
+                startCustomerUserInterface();
                 break;
             default:
                 System.out.println("Invalid indtastet kommando");

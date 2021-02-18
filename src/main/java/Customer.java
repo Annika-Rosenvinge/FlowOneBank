@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,8 +26,9 @@ public class Customer {
 
         System.out.println("Menu:\n" +
                 "1. View account information\n" +
-                "2. Se transaktionshistorik" +
-                "3. QUIT");
+                "2. Se transaktionshistorik\n" +
+                "3. Withdraw/Deposit\n" +
+                "4. QUIT");
 
         System.out.print("Indtast menu nummer: ");
         userInput = in.nextInt();
@@ -40,6 +42,9 @@ public class Customer {
                 break;
             case 2:
                 showTransactionInfo();
+                break;
+            case 3:
+                showMoneyChange();
                 break;
             default:
                 break;
@@ -75,6 +80,79 @@ public class Customer {
         in.nextLine();
 
         customerInterface();
+    }
+
+    private void showMoneyChange() {
+        double moneyConverted = (float) money / 100.00;
+        System.out.printf("Din nuværende balance er: %.2f DKK:\n" +
+                "1. Hæv penge\n" +
+                "2. Indsæt penge\n" +
+                "3. Tilbage til menuen\n\n" +
+                "Indtast menu nummer: ", moneyConverted);
+
+        userInput = in.nextInt();
+        in.nextLine();
+
+        System.out.println("\n");
+
+        switch (userInput) {
+            case 1:
+                userInput = 0;
+                while(userInput <= 0) {
+                    System.out.printf("Din nuværende balance er: %.2f DKK\n" +
+                            "Indtast ønsket beløb at hæve: ", moneyConverted);
+
+                    userInput = in.nextInt();
+                    in.nextLine();
+
+                    System.out.println("\n");
+
+                    if(userInput <= 0) {
+                        System.out.println("Indtast et gyldigt beløb");
+                    }
+                }
+
+                if((userInput * 100) <= money ) {
+                    moneyController(-userInput);
+                } else {
+                    System.out.println("Utilstrækkelig balance på kontien");
+                }
+
+                break;
+            case 2:
+                userInput = 0;
+                while(userInput <= 0) {
+                    System.out.printf("Din nuværende balance er: %.2f DKK\n" +
+                            "Indtast ønsket beløb at indsætte: ", moneyConverted);
+
+                    userInput = in.nextInt();
+                    in.nextLine();
+
+                    System.out.println("\n");
+
+                    if(userInput <= 0) {
+                        System.out.println("Indtast et gyldigt beløb");
+                    }
+                }
+
+                moneyController(userInput);
+
+                break;
+            default:
+                break;
+        }
+        customerInterface();
+    }
+
+    private void moneyController(int moneyChange) {
+        updateMoney();
+        int moneyToUpdate = money + moneyChange * 100;
+        mysql.updateMoney(customerNumber, moneyToUpdate);
+        updateMoney();
+    }
+
+    private void updateMoney() {
+        money = mysql.getMoney(customerNumber);
     }
 
     public String getCustomerName() {

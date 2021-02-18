@@ -102,7 +102,7 @@ public class MYSQL {
                 customerAdress = rs.getString("cusAdress");
             }
 
-            sql = "SELECT MoneyInAccount FROM cusaccount WHERE AccountNumber = ?";
+            sql = "SELECT MoneyInAccount FROM cusaccount WHERE cusNumber = ?";
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setInt(1, customerNumber);
 
@@ -145,5 +145,51 @@ public class MYSQL {
             throwables.printStackTrace();
         }
         return transactions;
+    }
+
+    public int getMoney(int customerNumber) {
+        int money = 0;
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT MoneyInAccount FROM cusaccount WHERE cusNumber = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, customerNumber);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()) {
+                money = rs.getInt("MoneyInAccount");
+            }
+
+            rs.close();
+            preparedStatement.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return money;
+    }
+
+    public boolean updateMoney(int customerNumber, int money) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "UPDATE cusaccount SET MoneyInAccount = ? WHERE cusNumber = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, money);
+            preparedStatement.setInt(2, customerNumber);
+
+            preparedStatement.execute();
+            preparedStatement.close();
+            con.close();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return false;
     }
 }
