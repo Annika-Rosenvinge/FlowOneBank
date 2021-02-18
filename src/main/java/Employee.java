@@ -44,6 +44,8 @@ public class Employee {
 
                 break;
             case 4:
+                printAllCustomers();
+                moveMoney();
                 break;
             case 5:
                 printAllCustomers();
@@ -76,14 +78,43 @@ public class Employee {
     }
 
     private void moveMoney() {
+        int user1 = 0, user2 = 0, transferAmount = 0;
 
+        System.out.print("Vælg konto 1: ");
+        user1 = in.nextInt();
+        in.nextLine();
+
+        System.out.print("Vælg beløb at overføre: ");
+        transferAmount = in.nextInt();
+        in.nextLine();
+
+        System.out.print("Vælg konto 2: ");
+        user2 = in.nextInt();
+        in.nextLine();
+
+        if(user1 != 0 && user2 != 0 && transferAmount != 0) {
+            int user1Money = mysql.getMoney(user1);
+            int user2Money = mysql.getMoney(user2);
+            int convertedMoney = transferAmount * 100;
+
+            if(user1Money > convertedMoney) {
+                mysql.updateMoney(user1, user1Money - convertedMoney);
+                mysql.updateMoney(user2, user2Money + convertedMoney);
+            } else {
+                System.out.println("Konto 1 har ikke tilstrækkelig balance");
+            }
+        } else {
+            System.out.println("Ugyldigt input");
+        }
+
+        userInput = 1;
     }
 
     private void printAllCustomers() {
         ArrayList<Customer> customers = mysql.getAllCustomers();
 
         for(Customer customer: customers) {
-            System.out.println(customer.getCustomerNumber() + ". " + customer.getCustomerName() + " (" + customer.getCustomerPhone() + ", " + customer.getCustomerAdress() + ") Saldo: " + customer.getMoney() + " DKK");
+            System.out.printf(customer.getCustomerNumber() + ". " + customer.getCustomerName() + " (" + customer.getCustomerPhone() + ", " + customer.getCustomerAdress() + ") Saldo: %.2f DKK\n", (float) customer.getMoney() / 100.00);
         }
 
         System.out.println("\n");
