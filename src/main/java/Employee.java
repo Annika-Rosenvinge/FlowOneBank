@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 //passwords til kunder
 
-public class Employee implements Login {
+public class Employee {
     Scanner sc = new Scanner(System.in);
     List<Customer> customers = new ArrayList<>();
-
+/*
     public void login() {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -27,9 +27,9 @@ public class Employee implements Login {
 
 
 
-        /* if navn = medarbejdernummer && kode = medarbejderkode
-         * så logges man ind og kan fortsætte
-         * */
+        // if navn = medarbejdernummer && kode = medarbejderkode
+          //så logges man ind og kan fortsætte
+
 
     }
 
@@ -68,6 +68,7 @@ public class Employee implements Login {
     }
 
     //case 1a
+
     private Customer newCostumer() {
         String name = " ";
         int phoneNumber = 0;
@@ -120,7 +121,7 @@ public class Employee implements Login {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Connecting to selected database...");
             // mangler vi login + url til databasen?
-            conn = DriverManager.getConnection((url, user, pass);
+            // conn = DriverManager.getConnection(url, user, pass);
             System.out.println("Connected database succesfully...");
             System.out.println("Deleting table in given database....");
             st = conn.createStatement();
@@ -148,7 +149,7 @@ public class Employee implements Login {
         }
         System.out.println("Good bye!");
     }
-
+*/
 
     private void customerChanges() {
         //indtast navn og nummer på kunde

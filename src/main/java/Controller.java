@@ -2,7 +2,9 @@ import java.util.Scanner;
 
 public class Controller {
     private Scanner in = new Scanner (System.in);
+    MYSQL mysql = new MYSQL();
     private int userInput;
+    Customer customerBank;
 
     public void runInitProgram(){
         System.out.print("Velkommen til Ebberød Bank!\nTast 1 for kunde/Tast 2 for medarbejder: ");
@@ -48,7 +50,10 @@ public class Controller {
         System.out.print("Indtast password: ");
         password = in.next();
 
-        //Mangler at teste med database om brugernavn/kodeord er korrekt
+        if(mysql.userLoginCheck(username, password)) {
+            customerBank = mysql.loadUser(username);
+
+        }
     }
 
     private void createUserInterface() {
@@ -69,7 +74,6 @@ public class Controller {
         while(password == null) {
             password = createPassword();
         }
-        MYSQL mysql = new MYSQL();
 
         if(mysql.createUserMYSQL(username, password, name, adresse, phone)) {
             System.out.println("Kontoen er oprettet");

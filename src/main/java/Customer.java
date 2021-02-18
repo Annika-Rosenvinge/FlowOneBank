@@ -1,85 +1,44 @@
 import java.util.Scanner;
 
-//passwords mangler
+public class Customer {
+    MYSQL mysql = new MYSQL();
+    private String customerName, customerAdress;
+    private int customerPhone, customerNumber, money;
+    private Scanner in = new Scanner(System.in);
 
-public class Customer implements Login {
-    public int balance;
-    public int money;
-    int customerId = 0;
-    public String name;
-    int phoneNumber;
-    public String address;
+    public Customer(String customerName, String customerAdress, int customerPhone, int customerNumber, int money) {
+        this.customerName = customerName;
+        this.customerAdress = customerAdress;
+        this.customerPhone = customerPhone;
+        this.customerNumber = customerNumber;
 
-
-    // creates customer
-    public Customer(String name, int phoneNumber, String address) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-    }
-
-    public void login() {
-
-    }
-
-    // indsæt penge
-    public int indsætPenge (int money) {
+        //Penge er i øre
         this.money = money;
-        return balance = balance + money;
     }
 
+    public void customerInterface() {
+        int userInput;
+        //Konversion fra øre til hele kroner
+        double moneyConverted = (float) money / 100.00;
+        System.out.printf("Velkommen " + customerName + ", din bank balance er: %.2f DKK", moneyConverted);
 
-    // Hæv Penge
-    public void hævPenge(int money) {
-        this.money = money;
-        if (balance - money >= 0) {
-            System.out.println(balance = balance - money);
+        System.out.println("Menu:\n" +
+                "1. View account information\n" +
+                "2. QUIT");
+
+        System.out.print("Indtast menu nummer: ");
+        userInput = in.nextInt();
+
+        switch (userInput) {
+            case 1:
+                showUserInfo();
+                break;
+            default:
+                break;
         }
-        else {
-            ikkePengeNokPåKonti();
-        }
-
     }
 
-    private void ikkePengeNokPåKonti(){
-        System.out.println("Du har desværre ikke penge nok på kontoen. Indsæt venligst penge og prøv igen.");
-    }
+    private void showUserInfo() {
 
-
-    //import sql server
-
-
-    public void setName(String name) {
-        this.name = name;
     }
-    public void setPhoneNumber (int phoneNumber){
-        this.phoneNumber = phoneNumber;
-    }
-    public void setAddress (String address) {
-        this.address = address;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-    public String getAddress() {
-        return address;
-    }
-
-    private int getBalance(){
-        return balance;
-    }
-
 }
