@@ -96,6 +96,13 @@ public class Employee {
 
         if(userInput != 0) {
             ArrayList<String []> transactions= mysql.getTransactionHistory(userInput);
+            for(int i = 0; i < transactions.size(); i++) {
+                String [] transaction = transactions.get(i);
+                System.out.println(transaction[0] + " - " + transaction [1] + " - " + transaction[2]);
+            }
+            System.out.println("\n");
+        } else {
+            System.out.println("Ugyldigt input");
         }
 
         userInput = 1;
