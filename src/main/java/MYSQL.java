@@ -344,4 +344,26 @@ public class MYSQL {
         }
         return transactions;
     }
+
+    public boolean updateUserAccount(int cusNumber, String cusName, int phone, String cusAdress) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "UPDATE customer SET CusName = ?, CusPhone = ?, CusAdress = ? WHERE cusNumber = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, cusName);
+            preparedStatement.setInt(2, phone);
+            preparedStatement.setString(3, cusAdress);
+            preparedStatement.setInt(4, cusNumber);
+
+            preparedStatement.execute();
+            preparedStatement.close();
+            con.close();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
 }

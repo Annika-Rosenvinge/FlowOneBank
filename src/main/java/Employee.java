@@ -41,7 +41,8 @@ public class Employee {
                 removeCostumer();
                 break;
             case 3:
-
+                printAllCustomers();
+                customerChanges();
                 break;
             case 4:
                 printAllCustomers();
@@ -73,8 +74,58 @@ public class Employee {
 
 
     private void customerChanges() {
-        //indtast navn og nummer på kunde
-        //indsæt, hæv
+        ArrayList<Customer> customers = mysql.getAllCustomers();
+        int userEdit = 0, customerPhone = 0;
+        String customerName = null, customerAdresse = null;
+
+        System.out.print("Indtast kontonummer at redigere (SKRIV 0 FOR AT ANNULLERE): ");
+        userEdit = in.nextInt();
+        in.nextLine();
+
+        System.out.print("ÆNDRINGS MENU:\n" +
+                "1. Navn\n" +
+                "2. Telefonnummer\n" +
+                "3. Adresse\n" +
+                "4. QUIT\n" +
+                "Indtast menu nummer: ");
+
+        userInput = in.nextInt();
+        in.nextLine();
+
+        for(Customer customer: customers) {
+            if(customer.getCustomerNumber() == userEdit) {
+                customerPhone = customer.getCustomerPhone();
+                customerAdresse = customer.getCustomerAdress();
+                customerName = customer.getCustomerName();
+            }
+        }
+
+        if(userEdit != 0 && userInput > 0 && userInput < 4) {
+            switch (userInput) {
+                case 1:
+                    System.out.print("Indtast nyt navn: ");
+                    customerName = in.next();
+                    in.nextLine();
+                    break;
+                case 2:
+                    System.out.print("Indtast nyt nummer: ");
+                    customerPhone = in.nextInt();
+                    in.nextLine();
+                    break;
+                case 3:
+                    System.out.print("Indtast ny adresse: ");
+                    customerAdresse = in.next();
+                    in.nextLine();
+                    break;
+                default:
+                    break;
+            }
+            mysql.updateUserAccount(userEdit, customerName, customerPhone, customerAdresse);
+            System.out.println("Brugeren er ny opdateret!");
+        }
+
+
+        userInput = 1;
     }
 
     private void moveMoney() {
