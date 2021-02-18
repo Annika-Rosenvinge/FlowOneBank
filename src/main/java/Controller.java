@@ -54,6 +54,9 @@ public class Controller {
         if(mysql.userLoginCheck(username, password)) {
             customerBank = mysql.loadUser(username);
             customerBank.customerInterface();
+        } else {
+            System.out.println("Ugyldigt brugernavn eller login");
+            runInitProgram();
         }
     }
 

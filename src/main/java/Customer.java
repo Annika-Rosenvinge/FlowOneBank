@@ -114,6 +114,7 @@ public class Customer {
 
                 if((userInput * 100) <= money ) {
                     moneyController(-userInput);
+                    mysql.transactionUpdate(customerNumber,customerName,money,userInput, "Withdraw");
                 } else {
                     System.out.println("Utilstrækkelig balance på kontien");
                 }
@@ -136,7 +137,7 @@ public class Customer {
                 }
 
                 moneyController(userInput);
-
+                mysql.transactionUpdate(customerNumber,customerName,money,userInput, "Deposited");
                 break;
             default:
                 break;

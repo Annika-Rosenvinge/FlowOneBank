@@ -192,4 +192,28 @@ public class MYSQL {
 
         return false;
     }
+
+    public boolean transactionUpdate(int customerNumber, String custonerName, int balance, int changeMoney, String txt) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "INSERT INTO TransactionHistory (cusNumber, cusName, TransactionHis) VALUES (?, ?, ?)";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, customerNumber);
+            preparedStatement.setString(2, custonerName);
+
+            String transTxt = txt + " " + changeMoney + " DKK .... Balance: " + (float) balance/100.00 + " DKK";
+            preparedStatement.setString(3, transTxt);
+
+            preparedStatement.execute();
+            preparedStatement.close();
+            con.close();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return false;
+    }
 }
