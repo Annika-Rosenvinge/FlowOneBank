@@ -52,7 +52,7 @@ public class Controller {
 
         if(mysql.userLoginCheck(username, password)) {
             customerBank = mysql.loadUser(username);
-
+            customerBank.customerInterface();
         }
     }
 
