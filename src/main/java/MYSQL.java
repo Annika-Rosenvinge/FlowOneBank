@@ -122,31 +122,6 @@ public class MYSQL {
         return customer;
     }
 
-    public ArrayList<String> getTransactionHistory(int customerNumber) {
-        ArrayList<String> transactions = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
-        String sql = "SELECT TransactionHis FROM transactionhistory WHERE cusNumber = ?";
-        try{
-            con = JDBConnector.getConnection();
-            preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setInt(1, customerNumber);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while(rs.next()) {
-                transactions.add(rs.getString("TransactionHis"));
-            }
-
-            rs.close();
-            preparedStatement.close();
-            con.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return transactions;
-    }
-
     public int getMoney(int customerNumber) {
         int money = 0;
         Connection con = null;
@@ -338,5 +313,35 @@ public class MYSQL {
             throwables.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<String []> getTransactionHistory(int cusNumber) {
+        ArrayList<String []> transactions = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT CusName, TimeTransaction, TransactionHis FROM transactionhistory WHERE CusNumber = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, cusNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()) {
+                String [] tmpTransaction = new String[3];
+                tmpTransaction[0] = rs.getString("CusName");
+                tmpTransaction[1] = rs.getString("TimeTransaction");
+                tmpTransaction[2] = rs.getString("TransactionHis");
+
+                transactions.add(tmpTransaction);
+            }
+
+
+            rs.close();
+            preparedStatement.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return transactions;
     }
 }

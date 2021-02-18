@@ -47,6 +47,7 @@ public class Employee {
                 break;
             case 5:
                 printAllCustomers();
+                selectCustomer();
                 break;
             default:
                 break;
@@ -86,5 +87,17 @@ public class Employee {
         }
 
         System.out.println("\n");
+    }
+
+    private void selectCustomer() {
+        System.out.print("Indtast et kontonummer for at se transaktionshistorik (Skriv 0 for at quit): ");
+        userInput = in.nextInt();
+        in.nextLine();
+
+        if(userInput != 0) {
+            ArrayList<String []> transactions= mysql.getTransactionHistory(userInput);
+        }
+
+        userInput = 1;
     }
 }

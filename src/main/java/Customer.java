@@ -66,13 +66,13 @@ public class Customer {
         customerInterface();
     }
 
-    // IKKE TESTET ENDNU
     private void showTransactionInfo() {
-        ArrayList<String> transactions = mysql.getTransactionHistory(customerNumber);
+        ArrayList<String []> transactions = mysql.getTransactionHistory(customerNumber);
         System.out.println("transaktionshistorik:");
 
         for(int i = 0; i < transactions.size(); i++) {
-            System.out.println(transactions.get(i));
+            String [] transaction = transactions.get(i);
+            System.out.println(transaction[0] + " - " + transaction [1] + " - " + transaction[2]);
         }
 
         System.out.print("Tast 1 for at forlade kunde information: ");
