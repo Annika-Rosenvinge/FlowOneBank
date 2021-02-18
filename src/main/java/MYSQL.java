@@ -121,4 +121,29 @@ public class MYSQL {
         Customer customer = new Customer(customerName, customerAdress, customerPhone, customerNumber, money);
         return customer;
     }
+
+    public ArrayList<String> getTransactionHistory(int customerNumber) {
+        ArrayList<String> transactions = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT TransactionHis FROM transactionhistory WHERE cusNumber = ?";
+        try{
+            con = JDBConnector.getConnection();
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, customerNumber);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()) {
+                transactions.add(rs.getString("TransactionHis"));
+            }
+
+            rs.close();
+            preparedStatement.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return transactions;
+    }
 }

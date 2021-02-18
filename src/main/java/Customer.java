@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer {
@@ -24,7 +25,8 @@ public class Customer {
 
         System.out.println("Menu:\n" +
                 "1. View account information\n" +
-                "2. QUIT");
+                "2. Se transaktionshistorik" +
+                "3. QUIT");
 
         System.out.print("Indtast menu nummer: ");
         userInput = in.nextInt();
@@ -35,6 +37,9 @@ public class Customer {
         switch (userInput) {
             case 1:
                 showUserInfo();
+                break;
+            case 2:
+                showTransactionInfo();
                 break;
             default:
                 break;
@@ -50,6 +55,22 @@ public class Customer {
                 "Balance: " + moneyConverted + " DKK\n\n" +
                 "Tast 1 for at forlade kunde information: ");
 
+        userInput = in.nextInt();
+        in.nextLine();
+
+        customerInterface();
+    }
+
+    // IKKE TESTET ENDNU
+    private void showTransactionInfo() {
+        ArrayList<String> transactions = mysql.getTransactionHistory(customerNumber);
+        System.out.println("transaktionshistorik:");
+
+        for(int i = 0; i < transactions.size(); i++) {
+            System.out.println(transactions.get(i));
+        }
+
+        System.out.print("Tast 1 for at forlade kunde information: ");
         userInput = in.nextInt();
         in.nextLine();
 
