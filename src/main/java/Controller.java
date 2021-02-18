@@ -72,8 +72,8 @@ public class Controller {
         password = in.next();
 
         if(mysql.employeeLoginCheck(username, password)) {
-            // Mangler integrere employee classen her
-            System.out.println("logget ind");
+            Employee employee = new Employee(username);
+            employee.employeeInterface();
         } else {
             System.out.println("Ugyldigt brugernavn eller login");
             runInitProgram();
@@ -115,7 +115,7 @@ public class Controller {
         }
     }
 
-    private void createUserInterface() {
+    public void createUserInterface() {
         String username, password = null, name, adresse, phone;
 
         System.out.print("Indtast dit fuldenavn: ");

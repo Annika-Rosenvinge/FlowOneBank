@@ -3,56 +3,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//passwords til kunder
-
 public class Employee {
     Scanner in = new Scanner(System.in);
     List<Customer> customers = new ArrayList<>();
     String employeeName;
-    int employeeID;
+    int userInput;
+    Controller controller = new Controller();
 
-    public Employee(String employeeName, int employeeID) {
+    public Employee(String employeeName) {
         this.employeeName = employeeName;
-        this.employeeID = employeeID;
     }
 
+    public void employeeInterface() {
+        System.out.println("Velkommen " + employeeName + "!");
 
-/*
+        System.out.println("Menu:\n" +
+                "1. Opret konti\n" +
+                "2. Fjern konti\n" +
+                "3. Redigere konti\n" +
+                "4. Flyt penge\n" +
+                "5. Se alle kontier\n" +
+                "6. QUIT");
 
+        System.out.print("Indtast menu nummer: ");
+        userInput = in.nextInt();
+        in.nextLine();
 
-    public void employee() {
-        login();
-        System.out.println("Velkommen til Ebberød Bank");
-        System.out.println("Vælg fra menuen");
-        employeeMenu();
+        System.out.println("\n");
 
-    }
+        switch (userInput) {
+            case 1:
+                controller.createUserInterface();
+                employeeInterface();
+                break;
+            case 2:
 
-    public void employeeMenu() {
-        int choice = 0;
-        while (choice != 6) {
-            choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    Customer customer = newCostumer();
-                    commitCustomer(customer);
-                    break;
-                case 2:
-                    removeCostumer();
-                    break;
-                case 3:
-                    customerChanges();
-                    break;
-                case 4:
-                    moveMoney();
-                    break;
-                case 5:
-                    seeAllCustomers();
-                    break;
+                break;
+            case 3:
 
-            }
+                break;
+            default:
+                break;
         }
     }
+/*
+
 
     //case 1a
 
